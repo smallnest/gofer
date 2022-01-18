@@ -3,6 +3,7 @@ package mka
 import (
 	"context"
 	"errors"
+	"sync"
 	"time"
 
 	"github.com/gammazero/workerpool"
@@ -10,16 +11,8 @@ import (
 	"go.uber.org/multierr"
 )
 
-type RWMode byte
-
-const (
-	// RWModeMultiRW 多写模式.
-	RWModeMultiRW RWMode = iota
-	// RWModeBackup 主从模式，正常情况下写入主，主有问题时随机选择一个从.
-	RWModeBackup
-)
-
-//
+// Reader 代表一个支持多Kafka集群的reader.
+// 它会从多个kafka集群同时读取消息.
 type Reader struct {
 	configs []kafka.ReaderConfig
 
@@ -64,6 +57,8 @@ func (r *Reader) Close() error {
 		}
 	}
 
+	r.wp.Stop()
+
 	return err
 }
 
@@ -83,24 +78,31 @@ func (r *Reader) ReadMessage(ctx context.Context) ([]kafka.Message, error) {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
+	var mu sync.Mutex
 	var msgs []kafka.Message
 	var err error
+
+	var wg sync.WaitGroup
+	wg.Add(r.n)
 
 	for _, reader := range r.readers {
 		reader := reader
 
 		r.wp.Submit(func() {
+			defer wg.Done()
+
 			msg, e := reader.ReadMessage(ctx)
 			if e == nil {
+				mu.Lock()
 				msgs = append(msgs, msg)
+				mu.Unlock()
 				cancel()
 			} else if !errors.Is(e, context.Canceled) {
 				err = multierr.Append(err, e)
 			}
 		})
 	}
-
-	r.wp.StopWait()
+	wg.Wait()
 
 	if len(msgs) > 0 {
 		return msgs, nil
