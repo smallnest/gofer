@@ -1,4 +1,4 @@
-module github.com/smallnest/goby
+module github.com/smallnest/gofer
 
 go 1.17
 
