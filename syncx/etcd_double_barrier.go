@@ -19,7 +19,7 @@ type doubleBarrier struct {
 }
 
 // NewBarrier 返回一个双次栅栏对象.
-func (d *DSync) NewDoubleBarrier(key string, count int) DoubleBarrier {
+func (d *EtcdSync) NewDoubleBarrier(key string, count int) DoubleBarrier {
 	b := recipe.NewDoubleBarrier(d.session, key, count)
 
 	return &doubleBarrier{b}

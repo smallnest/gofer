@@ -20,7 +20,7 @@ type barrier struct {
 
 // NewBarrier 返回一个栅栏对象.
 // Barrier creates a key in etcd to block processes, then deletes the key to release all blocked processes.
-func (d *DSync) NewBarrier(key string) Barrier {
+func (d *EtcdSync) NewBarrier(key string) Barrier {
 	b := recipe.NewBarrier(d.cli, key)
 
 	return &barrier{b}

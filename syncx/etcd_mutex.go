@@ -27,7 +27,7 @@ type mutex struct {
 }
 
 // NewMutex 返回一个分布式Mutex对象.
-func (d *DSync) NewMutex(mutexName string) Mutex {
+func (d *EtcdSync) NewMutex(mutexName string) Mutex {
 	if !strings.HasSuffix(mutexName, "/") {
 		mutexName += "/"
 	}
