@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/gammazero/workerpool"
@@ -85,8 +86,9 @@ func (r *Reader) ReadMessage(ctx context.Context) ([]kafka.Message, error) {
 	var wg sync.WaitGroup
 	wg.Add(r.n)
 
-	for _, reader := range r.readers {
-		reader := reader
+	idx := atomic.AddUint64(&r.idx, 1) % uint64(r.n)
+	for i := 0; i < r.n; i++ {
+		reader := r.readers[(idx+uint64(i))%uint64(r.n)]
 
 		r.wp.Submit(func() {
 			defer wg.Done()
