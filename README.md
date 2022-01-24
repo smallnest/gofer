@@ -1,6 +1,6 @@
 # gofer
 
-[![License](https://img.shields.io/:license-apache%202-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![GoDoc](https://godoc.org/github.com/smallnest/defer?status.png)](http://godoc.org/github.com/smallnest/defer)  [![build](https://github.com/smallnest/gofer/actions/workflows/build.yml/badge.svg)](https://github.com/smallnest/gofer/actions/workflows/build.yml) [![Go Report Card](https://goreportcard.com/badge/github.com/smallnest/defer)](https://goreportcard.com/report/github.com/smallnest/defer) [![coveralls](https://coveralls.io/repos/smallnest/defer/badge.svg?branch=master&service=github)](https://coveralls.io/github/smallnest/defer?branch=master)
+[![License](https://img.shields.io/:license-apache%202-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![GoDoc](https://godoc.org/github.com/smallnest/gofer?status.png)](http://godoc.org/github.com/smallnest/gofer)  [![build](https://github.com/smallnest/gofer/actions/workflows/build.yml/badge.svg)](https://github.com/smallnest/gofer/actions/workflows/build.yml) [![Go Report Card](https://goreportcard.com/badge/github.com/smallnest/gofer)](https://goreportcard.com/report/github.com/smallnest/gofer) [![coveralls](https://coveralls.io/repos/smallnest/gofer/badge.svg?branch=master&service=github)](https://coveralls.io/github/smallnest/gofer?branch=master)
 
 
 企业级中间件框架，Go生态圈的spring框架。
