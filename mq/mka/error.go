@@ -23,9 +23,9 @@ func (err WriteErrors) Error() string {
 	}
 
 	if len(err) == 1 {
-		return fmt.Sprintf("kafka write errors (%d/%d), the first error: %v", err.Count(), len(err), err[0])
+		return fmt.Sprintf("kafka write errors (%d/%d), error: %v", err.Count(), len(err), err[0])
 	}
 
-	return fmt.Sprintf("kafka write errors (%d/%d), errors like: %v; %v", err.Count(), len(err), err[0], err[1])
+	return fmt.Sprintf("kafka write errors (%d/%d), the first two errors: %v; %v", err.Count(), len(err), err[0], err[1])
 
 }
