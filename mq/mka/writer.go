@@ -92,7 +92,7 @@ func (w *Writer) Stats(i int) kafka.WriterStats {
 	return w.writers[i].Stats()
 }
 
-/// WriteMessages writes a batch of messages to the kafka topic configured on this
+// / WriteMessages writes a batch of messages to the kafka topic configured on this
 // writers.  If write fails, it will try write another kafka cluster again.
 //
 // Unless the writer was configured to write messages asynchronously, the method
@@ -130,6 +130,10 @@ func (w *Writer) WriteMessages(ctx context.Context, msgs ...kafka.Message) error
 	err := writer.WriteMessages(ctx, msgs...)
 	if err == nil {
 		return nil
+	}
+
+	if err1, ok := err.(kafka.WriteErrors); ok {
+		err = (WriteErrors)(err1)
 	}
 
 	if w.n == 1 {
