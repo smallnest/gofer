@@ -21,7 +21,6 @@ func (err WriteErrors) Error() string {
 	var errors []error
 
 	n := 0
-	count := 0
 	for _, e := range err {
 		e := e
 		if e != nil {
@@ -29,18 +28,17 @@ func (err WriteErrors) Error() string {
 			if n < 3 {
 				errors = append(errors, e)
 			}
-			count++
 		}
 	}
 
-	if count == 0 {
-		return fmt.Sprintf("kafka write errors (%d/%d)", count, len(err))
+	if n == 0 {
+		return fmt.Sprintf("kafka write errors (%d/%d)", n, len(err))
 	}
 
-	if count == 1 {
-		return fmt.Sprintf("kafka write errors (%d/%d), error: %v", count, len(err), errors[0])
+	if n == 1 {
+		return fmt.Sprintf("kafka write errors (%d/%d), error: %v", n, len(err), errors[0])
 	}
 
-	return fmt.Sprintf("kafka write errors (%d/%d), the first two errors: %v; %v", count, len(err), errors[0], errors[1])
+	return fmt.Sprintf("kafka write errors (%d/%d), the first two errors: %v; %v", n, len(err), errors[0], errors[1])
 
 }
